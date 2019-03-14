@@ -1,13 +1,410 @@
-<html>
-<head>
-<style>
-body {margin-left: 0px;margin-top: 0px;margin-right: 0px;margin-bottom: 0px;overflow: hidden;}
-</style>
-</head>
 
-<body>
-<iframe src='http://35.236.67.47/' width='100%' height='100%' frameborder='0' name="_blank" id="_blank" ></iframe>
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <meta name="description" content="">
+    <meta name="author" content="Mark Otto, Jacob Thornton, and Bootstrap contributors">
+    <meta name="generator" content="Jekyll v3.8.5">
+    <title>Online WordBook Converter</title>
 
+    <link rel="canonical" href="https://getbootstrap.com/docs/4.3/examples/cover/">
+
+    <!-- Bootstrap core CSS -->
+<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css">
+
+
+    <style>
+      .bd-placeholder-img {
+        font-size: 1.125rem;
+        text-anchor: middle;
+        -webkit-user-select: none;
+        -moz-user-select: none;
+        -ms-user-select: none;
+        user-select: none;
+      }
+
+      @media (min-width: 768px) {
+        .bd-placeholder-img-lg {
+          font-size: 3.5rem;
+        }
+      }
+      /*
+      * Globals
+      */
+
+      /* Links */
+      a,
+      a:focus,
+      a:hover {
+        color: #fff;
+      }
+
+      /* Custom default button */
+      .btn-secondary,
+      .btn-secondary:hover,
+      .btn-secondary:focus {
+        color: #333;
+        text-shadow: none; /* Prevent inheritance from `body` */
+        background-color: #fff;
+        border: .05rem solid #fff;
+      }
+
+
+      /*
+      * Base structure
+      */
+
+      html,
+      body {
+        height: 100%;
+        background-color: #333;
+      }
+
+      body {
+        display: -ms-flexbox;
+        display: flex;
+        color: #fff;
+        text-shadow: 0 .05rem .1rem rgba(0, 0, 0, .5);
+        box-shadow: inset 0 0 5rem rgba(0, 0, 0, .5);
+      }
+
+      .cover-container {
+        max-width: 42em;
+      }
+
+
+      /*
+      * Header
+      */
+      .masthead {
+        margin-bottom: 2rem;
+      }
+
+      .masthead-brand {
+        margin-bottom: 0;
+      }
+
+      .nav-masthead .nav-link {
+        padding: .25rem 0;
+        font-weight: 700;
+        color: rgba(255, 255, 255, .5);
+        background-color: transparent;
+        border-bottom: .25rem solid transparent;
+      }
+
+      .nav-masthead .nav-link:hover,
+      .nav-masthead .nav-link:focus {
+        border-bottom-color: rgba(255, 255, 255, .25);
+      }
+
+      .nav-masthead .nav-link + .nav-link {
+        margin-left: 1rem;
+      }
+
+      .nav-masthead .active {
+        color: #fff;
+        border-bottom-color: #fff;
+      }
+
+      @media (min-width: 48em) {
+        .masthead-brand {
+          float: left;
+        }
+        .nav-masthead {
+          float: right;
+        }
+      }
+
+
+      /*
+      * Cover
+      */
+      .cover {
+        padding: 0 1.5rem;
+      }
+      .cover .btn-lg {
+        padding: .75rem 1.25rem;
+        font-weight: 700;
+      }
+
+
+      /*
+      * Footer
+      */
+      .mastfoot {
+        color: rgba(255, 255, 255, .5);
+      }
+
+
+    </style>
+    <!-- Custom styles for this template -->
+    <link href="{{ url_for('static',filename='css/cover.css')}}" rel="stylesheet">
+  </head>
+  <body class="text-center">
+    <div class="cover-container d-flex w-100 h-100 p-3 mx-auto flex-column">
+  <header class="masthead mb-auto">
+    <div class="inner">
+      <h3 class="masthead-brand">词书在线转换器</h3>
+      <nav class="nav nav-masthead justify-content-center">
+        <a class="nav-link active" href="#">扇贝</a>
+        <a class="nav-link" href="#">新增词库</a>
+        <a class="nav-link" href="#">反馈</a>
+      </nav>
+    </div>
+  </header>
+
+  <main role="main" class="inner cover">
+    <h1 class="cover-heading">在线转换词书</h1>
+    <p class="lead">这是一个完全免费的在线单词书工具。它可以将网站上的词书下载并将单词保存为excel表格，已便于备考复习。</p>
+    <p class="lead">
+
+      <div class="input-group mb-3">
+        <div class="input-group-prepend">
+          <span class="input-group-text" id="basic-addon3">https://www.shanbay.com/wordbook/</span>
+        </div>
+        <input type="text" class="form-control" id="basic-url" aria-describedby="basic-addon3">
+      </div>
+
+      <button href="#" class="btn btn-lg btn-primary" id="download_btn">下载为电子表格</button>
+    </p>
+
+
+<!-- Modal -->
+<div class="modal fade" id="genericModalScrollable" tabindex="-1" role="dialog" aria-labelledby="genericModalScrollableTitle" aria-hidden="true" data-keyboard="false" data-backdrop="static" style="color:black">
+  <div class="modal-dialog modal-dialog-scrollable" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="genericModalScrollableTitle">转换中，请稍后</h5>
+        <!--
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+        -->
+      </div>
+      <div class="modal-body">
+        
+        <div class="progress">
+          <div class="progress-bar progress-bar-striped  progress-bar-animated" role="progressbar" aria-valuenow="0" aria-valuemin="0" aria-valuemax="100" style="width: 0%" id="convert_progress">0%</div>
+        </div>
+      </div>
+      
+      <div class="modal-footer" id="download_panel">
+        <button type="button" class="btn btn-secondary" data-dismiss="modal" id="closeBtn">关闭</button>
+        <a role="button" class="btn btn-primary" id="downloadBtn">下载</a>
+      </div>
+    </div>
+  </div>
+</div>
+
+  </main>
+
+  <footer class="mastfoot mt-auto">
+    <div class="inner">
+      <p>设计师<a href="https://github.com/songlinhou" target="_blank"> Ray</a></p>
+    </div>
+  </footer>
+</div>
+<script src="https://code.jquery.com/jquery-3.3.1.min.js" ></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"></script>
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"></script>
+<script>
+    
+  $('document').ready(function(){
+    console.log('ready');
+    $('#download_btn').attr('disabled','disabled')
+    $('#download_panel').hide();
+  });
+
+  var thread_id;
+  //const base_url = "https://sanbeidownloader--blockchain-dev.repl.co";
+    const base_url = "http://35.236.67.47:8080";
+
+  function get_number_of_url(url){
+    let outputURL = url.replace('https://','').replace('http://','');
+    outputURL = outputURL.replace('www.shanbay.com/wordbook/','');
+    outputURL = outputURL.replace('/','').trim();
+    let isnum = /^\d+$/.test(outputURL);
+    if(isnum){
+      return outputURL;
+    }
+    else{
+      return null;
+    }
+  }
+
+  $(document).on('change', '#basic-url', function() {
+  // Does some stuff and logs the event to the console
+   //alert("The text has been changed.");
+    let content = $('#basic-url').val();
+    //check if it is a number
+    let isnum = /^\d+$/.test(content);
+    if(!isnum){
+      let content_number = get_number_of_url(content);
+      if(content_number){
+        //it is a number now
+        $('#basic-url').val(content_number);
+        $('#download_btn').removeAttr('disabled');
+        return;
+      }
+      else{
+        $('#download_btn').attr('disabled','disabled');
+        return;
+      }
+    }
+    else{
+      //user input a number
+      $('#download_btn').removeAttr('disabled');
+    }
+    $('#download_panel').hide();
+    /*
+    console.log('content',content_number,'num',isnum);
+    if(!isnum){
+      $('#download_btn').attr('disabled','disabled');
+    }
+    else{
+      $('#download_btn').removeAttr('disabled');
+    }
+    $('#download_panel').hide();
+    */
+  });
+
+  function checkConvertProgess(){
+    let promise = $.ajax( {
+        url:base_url+'/progress?callback=progressCallback&thread_id='+thread_id,
+        jsonp:'callback',
+        dataType:'jsonp',
+        jsonpCallback:'progressCallback'
+    });
+    return promise;
+  }
+
+  function checkFileExist(){
+    let checkURL = `/download/${thread_id}.json`;
+    return $.ajax({
+      url:checkURL
+    });
+  }
+
+  function tryGetFileName(){
+    if(typeof(thread_id) != 'string' && typeof(thread_id) != 'number'){
+      console.log('tryGetFileName',thread_id);
+      return;
+    }
+    
+    let url = base_url+'/get_generated_name?callback=tryGetFileNameCallback&thread_id='+thread_id;
+    return $.ajax({
+      url:url,
+      jsonp:'callback',
+      dataType:'jsonp',
+      jsonpCallback:'tryGetFileNameCallback'
+    });
+  }
+
+  function process_download2(){
+    console.log('run process_download2');
+    let checkFileExistInterval2 = setInterval(function(){
+      console.log('run checkFileExistInterval2');
+      if(typeof(thread_id) != 'string' && typeof(thread_id) != 'number' ){
+        console.log('wrong thread_id found.');
+        console.log('process_download2 thread_id=',thread_id);
+        //clearInterval(checkFileExistInterval2);
+        return;
+      }
+      let promise = tryGetFileName(thread_id); 
+      if(!promise){
+        console.log('tryGetFileName returns null',thread_id);
+        return;
+      }
+      promise.done(function(resp){
+        console.log('process_download2 resp',resp);
+        let success = resp['success'];
+        if(!success){
+          console.log(resp.message);
+          return;
+        }
+        let name = resp['success'];
+        console.log(`${name} is generated`);
+        //operation here
+        let href = base_url+`/get?thread_id=${thread_id}&callback=get`;
+        $('#download_panel').fadeIn('slow');
+        $('#downloadBtn').attr('href',href);
+        clearInterval(checkFileExistInterval2);
+        console.log('checkFileExistInterval2 is stopped');
+
+      }).fail(function(resp){
+        //clearInterval(checkFileExistInterval2);
+        console.log('error found!',resp);
+      });
+    },500);
+  }
+
+  function process_download(){
+    let checkFileExistInterval = setInterval(function(){
+      checkFileExist(thread_id).done(function(resp){
+        
+        clearInterval(checkFileExistInterval);
+        //operation here
+        let href = base_url+`/get?thread_id=${thread_id}&callback=get`;
+        $('#download_panel').fadeIn('slow');
+        $('#downloadBtn').attr('href',href);
+
+      }).fail(function(resp){
+        console.log('file is still in progress...');
+      });
+    },500);
+  }
+
+  function showModal(){
+    $('#download_panel').hide();
+    $('#downloadBtn').attr('href',"#");
+    showProgress(0);
+    $('#genericModalScrollable').modal('show');
+  }
+
+
+  function showProgress(progress){
+    progress = Math.ceil(progress * 100);
+    $('#convert_progress').html(`${progress}%`);
+    $('#convert_progress').attr('aria-valuenow',""+progress)
+    $('#convert_progress').attr('style',`width:${progress}%`);
+  }
+
+  $('#download_btn').on('click',function(){
+    let id = $('#basic-url').val();
+    id = id.replace(".","");
+    $('#download_btn').attr('disabled','disabled');
+    $.ajax(
+    {
+        url:base_url+`/parse?id=${id}&callback=parseCallback`,
+        jsonp:'callback',
+        dataType:'jsonp',
+        jsonpCallback:'parseCallback'
+    }
+    ).done(function(resp){
+        console.log('success',resp);
+        thread_id = resp['thread_id'];
+        showModal();
+        $('#download_btn').removeAttr('disabled');
+        let checkProgress = setInterval(function(){
+          checkConvertProgess(thread_id).done(function(progress_resp){
+            let progress = progress_resp['progress'];
+            showProgress(progress);
+            if(progress_resp['progress'] == 1){
+              console.log('ok');
+              $('#convert_progress').html(`正在准备下载`);
+              clearInterval(checkProgress);
+              //process_download(thread_id);
+              process_download2(thread_id);
+            }
+          });
+        },1000); 
+    });
+  });
+
+
+
+</script>
 </body>
-
 </html>
