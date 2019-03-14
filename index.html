@@ -220,7 +220,7 @@
 
   var thread_id;
   //const base_url = "https://sanbeidownloader--blockchain-dev.repl.co";
-    const base_url = "https://35.236.67.47:8080";
+    const base_url = "https://www.35.237.124.29.xip.io";
 
   function get_number_of_url(url){
     let outputURL = url.replace('https://','').replace('http://','');
@@ -367,6 +367,9 @@
 
   function showProgress(progress){
     progress = Math.ceil(progress * 100);
+    if(isNaN(progress)){
+        return;
+    }
     $('#convert_progress').html(`${progress}%`);
     $('#convert_progress').attr('aria-valuenow',""+progress)
     $('#convert_progress').attr('style',`width:${progress}%`);
